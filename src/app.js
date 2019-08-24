@@ -18,6 +18,8 @@ var knex = Knex({
   useNullAsDefault: true,
 })
 
+knex.migrate.latest()
+
 passport.use(new Strategy(
   async function (username, password, done) {
     try {
