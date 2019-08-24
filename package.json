@@ -1,0 +1,42 @@
+{
+  "name": "legacy-code-workshop",
+  "private": true,
+  "scripts": {
+    "start": "ts-node -T src/app.js",
+    "start:dev": "nodemon --watch 'src/**/*.{js,ts}' --exec 'ts-node -T' src/app.js",
+    "test": "mocha -r ts-node/register/transpile-only --extension js,ts 'test/**/*.{js,ts}'"
+  },
+  "dependencies": {
+    "@restless/restless": "^0.4.2",
+    "@restless/sanitizers": "^0.2.2",
+    "@types/express": "^4.17.0",
+    "@types/express-session": "^1.15.13",
+    "@types/knex": "^0.16.1",
+    "@types/passport": "^1.0.0",
+    "@types/passport-local": "^1.0.33",
+    "body-parser": "^1.19.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "knex": "^0.19.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.0",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.2",
+    "@types/sinon": "^7.0.13",
+    "@types/sinon-chai": "^3.2.3",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.1",
+    "sinon": "^7.4.1",
+    "sinon-chai": "^3.3.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  }
+}

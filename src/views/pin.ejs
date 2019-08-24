@@ -1,0 +1,23 @@
+<%- include('partials/head') %>
+
+<div class="page">
+  <%- include('partials/sidebar') %>
+
+  <main class="main">
+    <header class="main__header">
+      <h1 class="main__title"><%= title %></h1>
+    </header>
+
+    <% if (error) { %>
+      <div class="error">
+        Already liked.
+      </div>
+    <% } %>
+
+    <%- include('partials/pin', { pin, large: true }) %>
+  </main>
+
+</div>
+
+<%- include('partials/add') %>
+<%- include('partials/tail') %>

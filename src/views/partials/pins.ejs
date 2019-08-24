@@ -1,0 +1,7 @@
+<section class="pins">
+  <ol class="pins__list">
+    <% for (const pin of pins) { %>
+      <%- include('pin', { pin, large: false }) %>
+    <% } %>
+  </ol>
+</section>

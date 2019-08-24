@@ -1,0 +1,23 @@
+<<%= large ? 'div' : 'li' %> class="<%= large ? 'pin pin--large' : 'pin' %>">
+  <a class="pin__main" href="/pins/<%= pin.id %>">
+    <div class="pin__image-wrapper">
+      <img
+        class="pin__image"
+        src="<%= pin.url %>"
+        alt="pin-<%= pin.id %>"
+      >
+    </div>
+  </a>
+  <div class="pin__bottom">
+    <span class="pin__username">
+      <a href="/users/<%= pin.username %>/pins">
+        <%= pin.username %>
+      </a>
+    </span>
+    <form class="pin__likes" action="/pins/<%= pin.id %>/likes" method="POST">
+      <button type="submit">
+        <%= pin.likes %> <img src="/img/like.svg" alt="Likes">
+      </button>
+    </form>
+  </div>
+</<%= large ? 'div' : 'li' %>>

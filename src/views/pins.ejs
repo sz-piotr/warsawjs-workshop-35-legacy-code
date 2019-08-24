@@ -1,0 +1,20 @@
+<%- include('partials/head') %>
+
+<div class="page">
+  <%- include('partials/sidebar') %>
+
+  <main class="main">
+    <header class="main__header">
+      <h1 class="main__title"><%= title %></h1>
+      <% if (linkUrl) { %>
+        <a class="main__link" href="<%= linkUrl %>"><%= linkTitle %></a>
+      <% } %>
+    </header>
+
+    <%- include('partials/pins') %>
+  </main>
+
+</div>
+
+<%- include('partials/add') %>
+<%- include('partials/tail') %>

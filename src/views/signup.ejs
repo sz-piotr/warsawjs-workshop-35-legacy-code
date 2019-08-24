@@ -1,0 +1,47 @@
+<%- include('partials/head', { title: 'Sign up' }) %>
+
+<div class="page">
+  <%- include('partials/sidebar') %>
+
+  <main class="main">
+    <header class="main__header">
+      <h1 class="main__title">Sign up</h1>
+    </header>
+
+    <form class="login" action="/signup" method="POST">
+      <% if (error === 1) { %>
+        <div class="error">Username already taken.</div>
+      <% } else if (error === 2) { %>
+        <div class="error">Invalid username or password.</div>
+      <% } else if (error === 3) { %>
+        <div class="error">Password too weak.</div>
+      <% } %> %>
+
+      <div class=login__note>
+        Username must be all lowercase, 3-20 characters.
+        Only latin letters, numbers, - and _ are permitted.
+      </div>
+
+      <input
+        class="login__username"
+        name="username"
+        type="text"
+        placeholder="username"
+      >
+      <input
+        class="login__password"
+        name="password"
+        type="password"
+        placeholder="password"
+      >
+      <button class="login__button" type="submit">
+        Sign up
+      </button>
+
+      <a class="login__link" href="/login">Login</a>
+    </form>
+  </main>
+
+</div>
+
+<%- include('partials/tail') %>

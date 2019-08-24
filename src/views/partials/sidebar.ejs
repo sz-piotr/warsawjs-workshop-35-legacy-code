@@ -1,0 +1,32 @@
+<nav class="sidebar">
+  <div class="sidebar__brand">
+    <img class="sidebar__brand-logo" src="/img/pin.svg" alt="Pinz Logo">
+    <div class="sidebar__brand-name">P!NZ</div>
+  </div>
+
+  <ul class="sidebar__items">
+    <li class="sidebar__item sidebar__item--active">
+      <a href="/">Home</a>
+    </li>
+    <li class="sidebar__item">
+      <a href="/best">Best</a>
+    </li>
+    <% if (username) { %>
+      <li class="sidebar__item">
+        <a href="/users/<%= username %>/pins"><%= username %></a>
+        <form class="sidebar__logout" action="/logout" method="POST">
+          <button type="submit">
+            <img src="/img/logout.svg" alt="Logout">
+          </button>
+        </form>
+      </li>
+    <% } else { %>
+      <li class="sidebar__item">
+        <a href="/login">Log in</a>
+      </li>
+      <li class="sidebar__item">
+        <a href="/signup">Sign up</a>
+      </li>
+    <% } %>
+  </ul>
+</nav>

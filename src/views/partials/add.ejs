@@ -1,0 +1,26 @@
+<% if (username) { %>
+  <div class="add">
+    <button class="add__button">
+      <img class="add__button-img" src="/img/add.svg" alt="Add pin">
+    </button>
+
+    <script>
+      document.querySelector('.add__button')
+        .addEventListener('click', function () {
+          document.querySelector('.add')
+            .classList.toggle('add--open')
+        })
+    </script>
+
+    <form class="add__form" action="/pins" method="POST">
+      <input
+        class="add__form-input"
+        type="text"
+        id="url"
+        name="url"
+        placeholder="Link to image"
+      />
+      <button class="add__form-button" type="submit">Pin</button>
+    </form>
+  </div>
+<% } %>

@@ -1,0 +1,40 @@
+<%- include('partials/head', { title: 'Log in' }) %>
+
+<div class="page">
+  <%- include('partials/sidebar') %>
+
+  <main class="main">
+    <header class="main__header">
+      <h1 class="main__title">Log in</h1>
+    </header>
+
+    <form class="login" action="/login" method="POST">
+      <% if (error) { %>
+        <div class="error">
+          Invalid username or password.
+        </div>
+      <% } %>
+
+      <input
+        class="login__username"
+        name="username"
+        type="text"
+        placeholder="username"
+      >
+      <input
+        class="login__password"
+        name="password"
+        type="password"
+        placeholder="password"
+      >
+      <button class="login__button" type="submit">
+        Login
+      </button>
+
+      <a class="login__link" href="/signup">Sign up</a>
+    </form>
+  </main>
+
+</div>
+
+<%- include('partials/tail') %>
