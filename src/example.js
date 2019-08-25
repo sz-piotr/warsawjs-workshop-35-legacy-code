@@ -16,7 +16,7 @@ export class LineCounter {
     this.readFile = readFile
   }
 
-  countLines () {
+  countLines (fileName) {
     const content = this.readFile(fileName)
     return content.split('\n').length
   }
