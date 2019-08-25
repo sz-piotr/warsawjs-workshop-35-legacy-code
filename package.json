@@ -4,7 +4,7 @@
   "scripts": {
     "start": "ts-node -T src/app.js",
     "start:dev": "nodemon --watch 'src/**/*.{js,ts}' --exec 'ts-node -T' src/app.js",
-    "test": "mocha -r ts-node/register/transpile-only --extension js,ts 'test/**/*.{js,ts}'"
+    "test": "NODE_ENV=test mocha -r ts-node/register/transpile-only --extension js,ts 'test/**/*.{js,ts}'"
   },
   "dependencies": {
     "@restless/restless": "^0.4.2",

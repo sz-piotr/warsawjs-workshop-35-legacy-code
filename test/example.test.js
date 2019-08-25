@@ -1,4 +1,4 @@
-import { multiply, countLines_globalSeam } from '../src/example'
+import { multiply, countLines_globalSeam, countLines_parameterSeam } from '../src/example'
 import { expect } from 'chai'
 
 describe('multiply', () => {
@@ -16,7 +16,7 @@ describe('multiply', () => {
 })
 
 describe('countLines', () => {
-  it('returns 3 for 3 line file', () => {
+  it('#countLines_globalSeam returns 3 for 3 line file', () => {
     // GIVEN
     global.fileContent = 'a\nb\nc'
     const fileName = 'file.txt'
@@ -26,6 +26,25 @@ describe('countLines', () => {
 
     // THEN
     expect(global.fileName).to.equal(fileName)
+    expect(result).to.equal(3)
+  })
+
+  it('#countLines_parameterSeam returns 3 for 3 line file', () => {
+    // GIVEN
+    const fileContent = 'a\nb\nc'
+    const fileName = 'file.txt'
+    let param
+
+    function readFile (fileName) {
+      param = fileName
+      return fileContent
+    }
+
+    // WHEN
+    const result = countLines_parameterSeam(fileName, readFile)
+
+    // THEN
+    expect(param).to.equal(fileName)
     expect(result).to.equal(3)
   })
 })
