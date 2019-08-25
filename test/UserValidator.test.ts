@@ -1,4 +1,4 @@
-import { UserValidator, WEAK_PASSWORDS_FILE } from "../src/UserValidator";
+import { UserValidator, WEAK_PASSWORDS_FILE, BANNED_WORDS_FILE } from "../src/UserValidator";
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -39,5 +39,33 @@ describe('UserValidator', () => {
       expect(result).to.equal(true);
       expect(readFile).to.be.calledOnceWithExactly(WEAK_PASSWORDS_FILE);
     });
+  })
+
+  describe('isInvalidUsername', () => {
+    it('returns true if username includes banned word', () => {
+      const username = 'Tasty_avocado'
+      const fileContent = 'mango\navocado'
+      const readFile = sinon.fake.returns(fileContent)
+
+      const userValidator = new UserValidator(readFile)
+
+      const result = userValidator.isInvalidUsername(username)
+
+      expect(result).to.equal(true)
+      expect(readFile).to.be.calledOnceWithExactly(BANNED_WORDS_FILE);
+    })
+
+    it('returns false if username does not include banned word', () => {
+      const username = 'Lolex'
+      const fileContent = 'mango\navocado'
+      const readFile = sinon.fake.returns(fileContent)
+
+      const userValidator = new UserValidator(readFile)
+
+      const result = userValidator.isInvalidUsername(username)
+
+      expect(result).to.equal(false)
+      expect(readFile).to.be.calledOnceWithExactly(BANNED_WORDS_FILE);
+    })
   })
 });
