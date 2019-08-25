@@ -14,15 +14,7 @@ export async function handleSignup(req, res, next) {
       res.redirect('/signup?error=2');
     }
     else {
-      passwords = fs.readFileSync(path.join(__dirname, '../config/weakpasswords.txt'), 'utf-8');
-      for (i = 0; i < passwords.length; i++) {
-        if (password === passwords[i]) {
-          correct = 1;
-        }
-      }
-      if (password.length <= 6) {
-        correct = 1;
-      }
+      ({ passwords, i, correct } = checkPassword(passwords, i, password, correct));
       try {
         if (correct) {
           res.redirect('/signup?error=3');
@@ -65,4 +57,17 @@ export async function handleSignup(req, res, next) {
   catch (e) {
     next(e);
   }
+}
+
+export function checkPassword(passwords, i, password, correct) {
+  passwords = fs.readFileSync(path.join(__dirname, '../config/weakpasswords.txt'), 'utf-8');
+  for (i = 0; i < passwords.length; i++) {
+    if (password === passwords[i]) {
+      correct = 1;
+    }
+  }
+  if (password.length <= 6) {
+    correct = 1;
+  }
+  return { passwords, i, correct };
 }
