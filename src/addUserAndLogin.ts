@@ -11,8 +11,7 @@ export async function addUserAndLogin(
 ) {
   if (password === '' || !/^[a-z0-9\-_]{3,20}$/.test(username)) {
     return '/signup?error=2';
-  }
-  else {
+  } else {
     try {
       if (doIsInvalid(password)) {
         return '/signup?error=3';
@@ -22,8 +21,7 @@ export async function addUserAndLogin(
         await login(user);
         return '/';
       }
-    }
-    catch (e) {
+    } catch (e) {
       if (e && e.message === 'User already exists') {
         return '/signup?error=1';
       }
