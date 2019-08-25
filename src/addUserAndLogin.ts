@@ -7,17 +7,19 @@ export async function addUserAndLogin(
   username: string,
   res: { redirect(url: string): void },
   login: (user: User) => Promise<void>,
+  doIsInvalid = isInvalid,
+  doRegisterUser = registerUser,
 ) {
   if (password === '' || !/^[a-z0-9\-_]{3,20}$/.test(username)) {
     res.redirect('/signup?error=2');
   }
   else {
     try {
-      if (isInvalid(password)) {
+      if (doIsInvalid(password)) {
         res.redirect('/signup?error=3');
       }
       else {
-        const user = await registerUser(username, password);
+        const user = await doRegisterUser(username, password);
         await login(user);
         res.redirect('/');
       }
