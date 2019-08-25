@@ -4,19 +4,8 @@ import passport from 'passport'
 import session from 'express-session'
 import { Strategy } from 'passport-local'
 import path from 'path'
-import Knex from 'knex'
-import fs from 'fs'
-
-var knex = Knex({
-  client: 'sqlite3',
-  connection: {
-    filename: path.join(__dirname, '../database/db.sqlite')
-  },
-  migrations: {
-    directory: path.join(__dirname, '../database/migrations')
-  },
-  useNullAsDefault: true,
-})
+import { handleSignup } from './handleSignup'
+import { knex } from './knex';
 
 knex.migrate.latest()
 
@@ -87,66 +76,7 @@ app.get('/signup', function (req, res) {
   })
 })
 
-app.post('/signup', async function (req, res, next) {
-  var correct = 0
-  var i
-  var passwords
-  var user
-  var username = req.body.username
-  var password = req.body.password
-  try {
-    if (password === '' || !/^[a-z0-9\-_]{3,20}$/.test(username)) {
-      res.redirect('/signup?error=2')
-    } else {
-      passwords = fs.readFileSync(
-        path.join(__dirname, '../config/weakpasswords.txt'),
-        'utf-8'
-      )
-      for (i = 0; i < passwords.length; i++) {
-        if (password === passwords[i]) {
-          correct = 1
-        }
-      }
-      if (password.length <= 6) {
-        correct = 1
-      }
-      try {
-        if (correct) {
-          res.redirect('/signup?error=3')
-        } else {
-          correct = 2
-          user = { username: username, password: password }
-          try {
-            await knex('users').insert(user)
-          } catch (e) {
-            if (e instanceof Error && /users\.username/.test(e.message)) {
-              throw new Error('User already exists')
-            }
-            throw e
-          }
-          await new Promise(function (resolve, reject) {
-            req.logIn(user, function (err) {
-              if (err) {
-                reject(err)
-              } else {
-                resolve()
-              }
-            })
-          })
-          res.redirect('/')
-        }
-      } catch (e) {
-        if (e && e.message === 'User already exists') {
-          res.redirect('/signup?error=1')
-        } else {
-          throw e
-        }
-      }
-    }
-  } catch (e) {
-    next(e)
-  }
-})
+app.post('/signup', handleSignup)
 
 app.post('/login', passport.authenticate('local', {
   successRedirect: '/',
