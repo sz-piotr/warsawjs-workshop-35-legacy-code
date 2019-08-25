@@ -1,9 +1,7 @@
-import path from 'path';
-import fs from 'fs';
-import { knex } from "./knex";
+import { registerUser } from './registerUser';
+import { isInvalid } from './isInvalid';
 
 export async function handleSignup(req, res, next) {
-  var user;
   var username = req.body.username;
   var password = req.body.password;
   try {
@@ -16,16 +14,7 @@ export async function handleSignup(req, res, next) {
           res.redirect('/signup?error=3');
         }
         else {
-          user = { username: username, password: password };
-          try {
-            await knex('users').insert(user);
-          }
-          catch (e) {
-            if (e instanceof Error && /users\.username/.test(e.message)) {
-              throw new Error('User already exists');
-            }
-            throw e;
-          }
+          const user = await registerUser(username, password);
           await new Promise(function (resolve, reject) {
             req.logIn(user, function (err) {
               if (err) {
@@ -53,18 +42,3 @@ export async function handleSignup(req, res, next) {
     next(e);
   }
 }
-
-export function isInvalid(password, doReadPasswordsFile = readPasswordsFile) {
-  const passwords = doReadPasswordsFile().split('\n');
-  for (const item of passwords) {
-    if (password === item) {
-      return true;
-    }
-  }
-  return password.length <= 6;
-}
-
-function readPasswordsFile() {
-  return fs.readFileSync(path.join(__dirname, '../config/weakpasswords.txt'), 'utf-8');
-}
-
