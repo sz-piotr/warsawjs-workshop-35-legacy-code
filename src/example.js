@@ -4,6 +4,25 @@ export function multiply (a, b) {
   return a * b
 }
 
+export function createCountLines (readFile) {
+  return function countLines (fileName) {
+    const content = readFile(fileName)
+    return content.split('\n').length
+  }
+}
+
+export class LineCounter {
+  constructor(readFile) {
+    this.readFile = readFile
+  }
+
+  countLines () {
+    const content = this.readFile(fileName)
+    return content.split('\n').length
+  }
+}
+
+export const countLines_closureSeam = createCountLines(readFile)
 
 export function countLines_parameterSeam (fileName, doReadFile = readFile) {
   const content = doReadFile(fileName)
