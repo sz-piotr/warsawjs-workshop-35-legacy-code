@@ -3,7 +3,6 @@ import fs from 'fs';
 import { knex } from "./knex";
 
 export async function handleSignup(req, res, next) {
-  var correct = 0;
   var user;
   var username = req.body.username;
   var password = req.body.password;
@@ -12,13 +11,11 @@ export async function handleSignup(req, res, next) {
       res.redirect('/signup?error=2');
     }
     else {
-      ({ correct } = checkPassword(password, correct));
       try {
-        if (correct) {
+        if (isInvalid(password)) {
           res.redirect('/signup?error=3');
         }
         else {
-          correct = 2;
           user = { username: username, password: password };
           try {
             await knex('users').insert(user);
@@ -57,18 +54,17 @@ export async function handleSignup(req, res, next) {
   }
 }
 
-export function checkPassword(password, correct, doReadPasswordsFile = readPasswordsFile) {
+export function isInvalid(password, doReadPasswordsFile = readPasswordsFile) {
   const passwords = doReadPasswordsFile().split('\n');
   for (const item of passwords) {
     if (password === item) {
-      correct = 1;
-      break;
+      return true;
     }
   }
   if (password.length <= 6) {
-    correct = 1;
+    return true;
   }
-  return {correct };
+  return false;
 }
 
 function readPasswordsFile() {
