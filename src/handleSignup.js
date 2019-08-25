@@ -4,8 +4,6 @@ import { knex } from "./knex";
 
 export async function handleSignup(req, res, next) {
   var correct = 0;
-  var i;
-  var passwords;
   var user;
   var username = req.body.username;
   var password = req.body.password;
@@ -14,7 +12,7 @@ export async function handleSignup(req, res, next) {
       res.redirect('/signup?error=2');
     }
     else {
-      ({ passwords, i, correct } = checkPassword(passwords, i, password, correct));
+      ({ correct } = checkPassword(password, correct));
       try {
         if (correct) {
           res.redirect('/signup?error=3');
@@ -59,19 +57,18 @@ export async function handleSignup(req, res, next) {
   }
 }
 
-export function checkPassword(passwords, i, password, correct, doReadPasswordsFile = readPasswordsFile) {
-  passwords = doReadPasswordsFile().split('\n');
-  console.log(passwords);
-  for (i = 0; i < passwords.length; i++) {
-    console.log(i, passwords[i]);
-    if (password === passwords[i]) {
+export function checkPassword(password, correct, doReadPasswordsFile = readPasswordsFile) {
+  const passwords = doReadPasswordsFile().split('\n');
+  for (const item of passwords) {
+    if (password === item) {
       correct = 1;
+      break;
     }
   }
   if (password.length <= 6) {
     correct = 1;
   }
-  return { passwords, i, correct };
+  return {correct };
 }
 
 function readPasswordsFile() {
