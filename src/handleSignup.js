@@ -60,8 +60,10 @@ export async function handleSignup(req, res, next) {
 }
 
 export function checkPassword(passwords, i, password, correct, doReadPasswordsFile = readPasswordsFile) {
-  passwords = doReadPasswordsFile();
+  passwords = doReadPasswordsFile().split('\n');
+  console.log(passwords);
   for (i = 0; i < passwords.length; i++) {
+    console.log(i, passwords[i]);
     if (password === passwords[i]) {
       correct = 1;
     }
