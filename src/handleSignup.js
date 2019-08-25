@@ -61,10 +61,7 @@ export function isInvalid(password, doReadPasswordsFile = readPasswordsFile) {
       return true;
     }
   }
-  if (password.length <= 6) {
-    return true;
-  }
-  return false;
+  return password.length <= 6;
 }
 
 function readPasswordsFile() {
