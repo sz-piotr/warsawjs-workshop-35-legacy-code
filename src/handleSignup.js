@@ -5,7 +5,8 @@ export async function handleSignup(req, res, next) {
   var password = req.body.password;
 
   try {
-    await addUserAndLogin(password, username, res, login);
+    const url = await addUserAndLogin(password, username, res, login);
+    res.redirect(url)
   }
   catch (e) {
     next(e);
