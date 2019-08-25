@@ -32,12 +32,9 @@ export class UserValidator {
 
     const usernameNormalized = username.toLowerCase()
 
-    for (const item of bannedwords) {
-      if (usernameNormalized.includes(item)) {
-        return true;
-      }
-    }
-    return false
+    return bannedwords.some(
+      word => usernameNormalized.includes(word)
+    )
   }
 }
 
