@@ -1,12 +1,14 @@
 import { knex } from "./knex";
+import { User } from "./User";
 
 export async function registerUser(
   username: string,
   password: string,
+  doPutUserToDatabase = putUserToDatabase
 ) {
   const user = { username: username, password: password };
   try {
-    await knex('users').insert(user);
+    await doPutUserToDatabase(user);
   }
   catch (e) {
     if (e instanceof Error && /users\.username/.test(e.message)) {
@@ -15,4 +17,8 @@ export async function registerUser(
     throw e;
   }
   return user;
+}
+
+async function putUserToDatabase(user: User) {
+  await knex('users').insert(user);
 }
