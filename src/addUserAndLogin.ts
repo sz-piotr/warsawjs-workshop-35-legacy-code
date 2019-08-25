@@ -16,6 +16,9 @@ export async function addUserAndLogin(
       if (userValidator.isInvalidPassword(password)) {
         return '/signup?error=3';
       }
+      if (userValidator.isInvalidUsername(username)) {
+        return '/signup?error=2';
+      }
       else {
         const user = await doRegisterUser(username, password);
         await login(user);
